@@ -42,8 +42,6 @@ ynh_add_systemd_config
 
 yunohost service add $app --description="A short description of the app" --log="/var/log/$app/$app.log"
 
-### Additional options starting with 3.8:
-
 #=================================================
 # APP INITIAL CONFIGURATION
 #=================================================
@@ -60,7 +58,10 @@ yunohost service add $app --description="A short description of the app" --log="
 # SETUP APPLICATION WITH CURL
 #=================================================
 
-yarn --production
+pushd $install_dir
+ 	ynh_use_nodejs
+	ynh_exec_warn_less sudo -u $app env $ynh_node_load_PATH yarn --production
+popd
 
 #=================================================
 # GENERIC FINALIZATION
